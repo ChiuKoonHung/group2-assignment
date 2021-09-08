@@ -35,8 +35,13 @@ const messages = [
 ]
 
 // Use Promise.all() and Array#map to send all the messages.
-Promise.all(
-    messages.map(item => send(item["to"], item["message"])) 
-    ).then(result => console.log(result));
-
-console.log("END"); // This line must be printed last.
+const answer = async () => {
+    Promise.all(
+        messages.map(async (message) => {
+            const response = await send(message["to"], message["message"]).then((resolve) => {
+                console.log(resolve);
+            });
+        })
+    ).then(() => console.log("END"));
+};
+answer();
